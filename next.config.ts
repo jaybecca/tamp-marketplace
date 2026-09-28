@@ -14,6 +14,12 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  outputFileTracingIncludes: {
+    "**/*": [
+      "./node_modules/pg-cloudflare/dist/**",
+      "./node_modules/pg-cloudflare/esm/**",
+    ],
+  },
   output: "standalone",
   reactStrictMode: true,
   images: { unoptimized: false, formats: ["image/avif", "image/webp"], minimumCacheTTL: 3600 },
