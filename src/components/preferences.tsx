@@ -61,10 +61,10 @@ export function AuthHeader() {
   </header>;
 }
 
-export function PasswordField({ name = 'password', autoComplete, placeholder }: { name?: string; autoComplete?: string; placeholder: string }) {
+export function PasswordField({ name = 'password', autoComplete, placeholder, required }: { name?: string; autoComplete?: string; placeholder: string; required?: boolean }) {
   const [visible, setVisible] = useState(false);
   return <div className="password-field">
-    <input name={name} type={visible ? 'text' : 'password'} autoComplete={autoComplete} placeholder={placeholder} />
+    <input name={name} type={visible ? 'text' : 'password'} autoComplete={autoComplete} placeholder={placeholder} required={required} />
     <button type="button" className="password-toggle" onClick={() => setVisible(v => !v)} aria-label={visible ? 'Hide password' : 'Show password'}>{visible ? 'Hide' : 'Show'}</button>
   </div>;
 }

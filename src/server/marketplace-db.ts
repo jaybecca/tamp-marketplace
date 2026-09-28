@@ -14,13 +14,63 @@ const merchantMeta: Record<string,{icon:string;type:string}> = { amazon:{icon:'a
 const iconByCategory: Record<string,string> = {electronics:'💻',wearables:'⌚',phones:'📱',laptops:'💻',fashion:'👕',shoes:'👟',beauty:'💄','home-living':'🛋️',sports:'⚽',toys:'🧸',automotive:'🚙',books:'📚',audio:'🎧'};
 
 export async function getDbCountries(): Promise<DbCountry[]> {
-  const r=await query<{code:string;name:string;currency_code:string;currency_symbol:string|null;flag_emoji:string|null;region:string|null}>(`SELECT code,name,currency_code,currency_symbol,flag_emoji,region FROM countries WHERE active=TRUE ORDER BY name`);
-  return r.rows.map(x=>({code:x.code.trim(),name:x.name,currency:x.currency_code.trim(),currencySymbol:x.currency_symbol||x.currency_code.trim(),flag:x.flag_emoji||'🌍',region:x.region||'Africa'}));
+  const r = await query<{
+    code: string;
+    name: string;
+    currency_code: string;
+    default_language: string;
+  }>(
+    `SELECT code,name,currency_code,default_language
+     FROM countries
+     WHERE active=TRUE
+     ORDER BY name`
+  );
+
+  const currencySymbols: Record<string, string> = {
+    NGN: '₦', GHS: 'GH₵', KES: 'KSh', UGX: 'USh', ZAR: 'R',
+    TZS: 'TSh', RWF: 'RF', ETB: 'Br', ZMW: 'ZK', BWP: 'P',
+    MZN: 'MT', AOA: 'Kz', CDF: 'FC', XAF: 'CFA', DZD: 'دج',
+    TND: 'د.ت', EGP: 'E£', MAD: 'MAD', XOF: 'CFA', GMD: 'D',
+    SLE: 'Le', MWK: 'MK', MGA: 'Ar', BIF: 'FBu', MUR: '₨',
+    USD: '$', EUR: '€', GBP: '£'
+  };
+
+  return r.rows.map(x => ({
+    code: x.code.trim(),
+    name: x.name,
+    currency: x.currency_code.trim(),
+    currencySymbol: currencySymbols[x.currency_code.trim()] || x.currency_code.trim(),
+    flag: '🌍',
+    region: 'Africa',
+  }));
 }
 export async function getDbCountry(code='NG') { const list=await getDbCountries(); return list.find(x=>x.code===code.toUpperCase())||list[0]; }
 export async function getDbMerchants(country='NG'): Promise<DbMerchant[]> {
-  const r=await query<{slug:string;name:string;website_url:string;status:string;icon:string|null;merchant_type:string|null}>(`SELECT m.slug,m.name,m.website_url,COALESCE(mca.status,'unknown') status,m.icon,m.merchant_type FROM merchants m LEFT JOIN merchant_country_availability mca ON mca.merchant_id=m.id AND mca.country_code=$1 WHERE m.active=TRUE ORDER BY m.name`,[country.toUpperCase()]);
-  return r.rows.map(x=>({slug:x.slug,name:x.name,websiteUrl:x.website_url,icon:x.icon||x.name.slice(0,1),type:x.merchant_type||x.slug,status:(x.status||'unknown') as AvailabilityStatus}));
+  const r = await query<{
+    slug: string;
+    name: string;
+    website_url: string;
+    status: string;
+  }>(
+    `SELECT m.slug,m.name,m.website_url,
+            COALESCE(mca.status,'unknown') AS status
+     FROM merchants m
+     LEFT JOIN merchant_country_availability mca
+       ON mca.merchant_id = m.id
+      AND mca.country_code = $1
+     WHERE m.active=TRUE
+     ORDER BY m.name`,
+    [country.toUpperCase()]
+  );
+
+  return r.rows.map(x => ({
+    slug: x.slug,
+    name: x.name,
+    websiteUrl: x.website_url,
+    icon: x.name.slice(0, 1).toUpperCase(),
+    type: x.slug,
+    status: (x.status || 'unknown') as AvailabilityStatus,
+  }));
 }
 export async function getDbCategories(): Promise<DbCategory[]> {
   const r=await query<{slug:string;name:string;icon:string|null;count:string}>(`SELECT c.slug,c.name,c.icon,COUNT(p.id)::text count FROM categories c LEFT JOIN products p ON p.category_slug=c.slug AND p.active=TRUE WHERE c.active=TRUE GROUP BY c.slug,c.name,c.icon ORDER BY c.name`);
