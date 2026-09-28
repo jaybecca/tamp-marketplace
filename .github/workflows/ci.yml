@@ -1,0 +1,33 @@
+name: TAMP Marketplace CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm install --ignore-scripts --no-audit --no-fund
+      - name: Foundation validation
+        run: npm run validate:foundation
+      - name: Tests
+        run: npm test
+      - name: Lint
+        run: npm run lint
+      - name: Dependency security audit
+        run: npm run security:audit
+      - name: Production build
+        run: npm run build

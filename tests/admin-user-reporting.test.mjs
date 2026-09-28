@@ -1,0 +1,3 @@
+import test from 'node:test'; import assert from 'node:assert/strict'; import fs from 'node:fs'; import path from 'node:path';
+const root=path.resolve(new URL('..',import.meta.url).pathname);
+test('admin user reporting includes country attribution and limited export fields',()=>{const u=fs.readFileSync(path.join(root,'src/app/api/admin/users/route.ts'),'utf8');const e=fs.readFileSync(path.join(root,'src/app/api/admin/users/export/route.ts'),'utf8');const a=fs.readFileSync(path.join(root,'src/app/api/admin/analytics/route.ts'),'utf8');assert.match(u,/country_code/);assert.match(e,/name,email/);assert.match(a,/user_countries/);});

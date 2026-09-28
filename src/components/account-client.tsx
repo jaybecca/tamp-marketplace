@@ -1,0 +1,3 @@
+'use client';
+import { useEffect, useState } from 'react';
+export function AccountClient(){const [user,setUser]=useState<{name:string;email:string}|null>(null);useEffect(()=>{fetch('/api/auth/me').then(r=>r.json()).then(d=>setUser(d.user)).catch(()=>{});},[]); if(!user)return <div className="settings-card"><h2>Account</h2><p>Sign in to sync saved products and preferences across devices.</p><a className="yellow-btn" href="/auth/sign-in">Sign in</a></div>; return <div className="settings-card"><h2>Account</h2><p><strong>{user.name}</strong><br/>{user.email}</p><button className="outline-btn" onClick={async()=>{await fetch('/api/auth/sign-out',{method:'POST'});window.location.href='/';}}>Sign out</button></div>;}

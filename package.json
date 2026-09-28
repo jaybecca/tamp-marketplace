@@ -1,0 +1,35 @@
+{
+  "name": "tmarketplace1.0",
+  "version": "1.0.51",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/next-with-env.mjs dev",
+    "build": "next build",
+    "start": "node scripts/next-with-env.mjs start",
+    "lint": "eslint .",
+    "test": "node --test tests/*.test.mjs",
+    "validate:foundation": "node scripts/validate-foundation.mjs",
+    "security:audit": "npm audit --audit-level=high"
+  },
+  "dependencies": {
+    "next": "16.3.6",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "pg": "^8.16.3",
+    "ioredis": "^5.6.1",
+    "@sentry/nextjs": "^10.17.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@types/node": "^20.17.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.28.0",
+    "eslint-config-next": "16.3.6",
+    "postcss": "^8.5.4",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.8.3",
+    "autoprefixer": "^10.4.21",
+    "@types/pg": "^8.15.5"
+  }
+}

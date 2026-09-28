@@ -1,0 +1,2 @@
+import { NextResponse } from 'next/server'; import { clearSession } from '@/lib/auth';
+export async function POST(request: Request){ try{await clearSession(); const accept=request.headers.get('accept')||''; if(accept.includes('text/html')) return NextResponse.redirect(new URL('/', request.url)); return NextResponse.json({ok:true});}catch{return NextResponse.json({error:'Sign-out failed.'},{status:500});}}

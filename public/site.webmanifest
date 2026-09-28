@@ -1,0 +1,16 @@
+{
+  "name": "TAMP Marketplace",
+  "short_name": "TAMP",
+  "description": "Compare products, prices and deals across global and local marketplaces serving shoppers across Africa.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#031f4a",
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {"src":"/icons/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"/icons/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"},
+    {"src":"/icons/icon-1024.png","sizes":"1024x1024","type":"image/png","purpose":"any"}
+  ]
+}

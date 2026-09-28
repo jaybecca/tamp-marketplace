@@ -1,0 +1,7 @@
+import test from 'node:test'; import assert from 'node:assert/strict'; import fs from 'node:fs'; import path from 'node:path';
+const root=process.cwd(); const read=p=>fs.readFileSync(path.join(root,p),'utf8');
+test('Phase 7 migration defines affiliate accounts, routing, ledger and fraud events',()=>{const s=read('database/migrations/012_affiliate_revenue_engine.sql'); for(const n of ['affiliate_network_accounts','affiliate_routing_rules','affiliate_commission_ledger','affiliate_fraud_events']) assert.match(s,new RegExp(`CREATE TABLE IF NOT EXISTS ${n}`)); assert.match(s,/attribution_window_days/); assert.match(s,/fraud_review/);});
+test('country-specific affiliate routing is parameterized',()=>{const s=read('src/server/affiliate/revenue.ts'); assert.match(s,/countryCode\.toUpperCase\(\)/); assert.match(s,/merchantId/); assert.match(s,/\$1/);});
+test('affiliate resolver endpoint validates country codes',()=>{const s=read('src/app/api/affiliate/route.ts'); assert.match(s,/two-letter country code/); assert.match(s,/resolveAffiliateLink/);});
+test('affiliate reporting requires admin access',()=>{const s=read('src/app/api/admin/affiliate-report/route.ts'); assert.match(s,/requireAdmin/); assert.match(s,/affiliate_conversions/);});
+test('conversion transactions are unique and commission ledger is idempotent',()=>{const s=read('database/migrations/012_affiliate_revenue_engine.sql'); const r=read('src/server/affiliate/revenue.ts'); assert.match(s,/uq_affiliate_conversion_transaction/); assert.match(r,/ON CONFLICT \(conversion_id,status\)/);});
