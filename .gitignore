@@ -10,3 +10,5 @@ out
 
 *.tsbuildinfo
 *.tmp
+
+.open-next
