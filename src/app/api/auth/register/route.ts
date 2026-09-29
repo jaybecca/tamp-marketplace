@@ -14,7 +14,9 @@ export async function POST(request: Request) {
     const password = String(body.password ?? '');
     const consent = body.consent === true;
     if (!name || name.length < 2) return NextResponse.json({error:'Enter your full name.'},{status:400});
-    if (!/^\S+@\S+\.\S+$/.test(email)) return NextResponse.json({error:'Enter a valid email address.'},{status:400});
+    const emailAt = email.indexOf('@');
+    const emailDot = email.lastIndexOf('.');
+    if (emailAt <= 0 || emailDot <= emailAt + 1 || emailDot >= email.length - 1 || email.includes(' ')) return NextResponse.json({error:'Enter a valid email address.'},{status:400});
     if (!consent) return NextResponse.json({error:'Please accept the Privacy Policy and Terms.'},{status:400});
     const passwordHash = await hashPassword(password);
     const countryHeader = request.headers.get('cf-ipcountry') || request.headers.get('x-country-code');
@@ -27,7 +29,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ok:true});
   } catch (e) {
     const message = e instanceof Error ? e.message : 'Registration failed.';
-    const error = message === 'DATABASE_URL is not configured' ? 'Database is not configured. Add DATABASE_URL to .env.example and restart the server.' : `Registration failed: ${message.slice(0,160)}`;
+    const error = message === 'DATABASE_URL is not configured' ? 'Database is not configured.' : 'Registration failed. Please try again.';
     return NextResponse.json({error},{status:500});
   }
 }
