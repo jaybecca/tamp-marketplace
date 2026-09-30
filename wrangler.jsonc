@@ -4,6 +4,11 @@
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-09-28",
   "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    "GOOGLE_CLIENT_ID": 
+"191415302043-qtaajki3956qc3l06lbe3apnf8kseuuf.apps.googleusercontent.com",
+    "NEXT_PUBLIC_SITE_URL": "https://marketplace.tampconsulting.space"
+  },
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
