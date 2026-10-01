@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 const header = fs.readFileSync('src/components/site.tsx','utf8');
-const signIn = fs.readFileSync('src/app/auth/sign-in/sign-in-form.tsx','utf8');
+const signIn = fs.readFileSync('src/app/auth/sign-in/page.tsx','utf8');
 const register = fs.readFileSync('src/app/auth/register/page.tsx','utf8');
 const google = fs.readFileSync('src/app/api/auth/google/callback/route.ts','utf8');
 

@@ -7,8 +7,3 @@ out
 *.log
 
 .env.example
-
-*.tsbuildinfo
-*.tmp
-
-.open-next

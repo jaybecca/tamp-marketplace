@@ -77,3 +77,9 @@ For production, set `DATABASE_URL` to the connection string supplied by your man
 - Added complete residual UI translation fallback through the existing server-side Gemini translation service.
 - Added PostgreSQL catalog seed migration `014_catalog_seed.sql`; affiliate links are inactive until merchant credentials are configured.
 - Customer product, search and deals listings now read the production catalog layer.
+
+
+## Affiliate integration setup
+- Jumia affiliate links are activated from the admin panel after `JUMIA_AFFILIATE_LINK` is configured. A single generic Jumia tracking link is suitable for generic traffic; product-specific deep links should be supplied per merchant product when available.
+- AliExpress seller OAuth callback: `/api/admin/aliexpress/callback`. Register `https://marketplace.tampconsulting.space/api/admin/aliexpress/callback` in the AliExpress app and configure `ALIEXPRESS_APP_KEY`, `ALIEXPRESS_APP_SECRET`, `INTEGRATION_CREDENTIAL_KEY` and `ALIEXPRESS_CALLBACK_URL`.
+- Password recovery uses Resend and requires `RESEND_API_KEY` and `RESEND_FROM_EMAIL=marketplace@tampconsulting.space`.

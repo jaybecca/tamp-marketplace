@@ -6,10 +6,11 @@ import { query } from './db';
 const scrypt = promisify(scryptCallback);
 const SESSION_COOKIE = 'tamp_session';
 const SESSION_DAYS = 30;
+export const PASSWORD_RESET_MINUTES = 30;
 
 export type User = { id: string; email: string; name: string; avatar_url: string | null; consent_version: string | null; role: 'customer' | 'admin' };
 
-function hashToken(token: string) { return createHash('sha256').update(token).digest('hex'); }
+export function hashToken(token: string) { return createHash('sha256').update(token).digest('hex'); }
 
 export async function hashPassword(password: string) {
   if (password.length < 8) throw new Error('Password must be at least 8 characters.');
@@ -24,6 +25,15 @@ export async function verifyPassword(password: string, stored: string) {
   const derived = (await scrypt(password, salt, 64)) as Buffer;
   const expected = Buffer.from(hex, 'hex');
   return expected.length === derived.length && timingSafeEqual(expected, derived);
+}
+
+
+export function createPasswordResetToken() {
+  return randomBytes(32).toString('base64url');
+}
+
+export async function revokeUserSessions(userId: string) {
+  await query('DELETE FROM auth_sessions WHERE user_id=$1', [userId]);
 }
 
 export async function createSession(userId: string) {

@@ -11,15 +11,7 @@ export async function POST(req: Request) {
     const subject = String(body.subject ?? '').trim();
     const message = String(body.message ?? '').trim();
     const priority = ['low','normal','high','urgent'].includes(String(body.priority)) ? String(body.priority) : 'normal';
-    const emailAt = email.indexOf('@');
-    const emailDot = email.lastIndexOf('.');
-    const validEmail =
-      emailAt > 0 &&
-      emailDot > emailAt + 1 &&
-      emailDot < email.length - 1 &&
-      !email.includes(' ');
-
-    if (!subject || !message || message.length > 10000 || (!user && !validEmail)) {
+    if (!subject || !message || message.length > 10000 || (!user && !/^\S+@\S+\.\S+$/.test(email))) {
       return NextResponse.json({ error: 'Name/email, subject and message are required.' }, { status: 400 });
     }
     const r = await query(`INSERT INTO support_tickets(user_id,email,name,subject,message,priority) VALUES($1,$2,$3,$4,$5,$6) RETURNING id,status,created_at`, [user?.id ?? null, email || null, name || null, subject, message, priority]);

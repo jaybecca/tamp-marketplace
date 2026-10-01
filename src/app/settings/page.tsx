@@ -12,6 +12,7 @@ export default function SettingsPage() {
   <p className="lead">Manage the shopping preferences used across TAMP on this device.</p>
   <AccountClient />
   <section className="settings-card"><h2>Language and currency</h2><p>Your selections are saved locally on this device and used to adapt TAMP's interface and displayed prices.</p><PreferencesBar /></section>
+  <section className="settings-card"><h2>Password management</h2><p>Keep your account secure by changing your password when needed or after a security concern.</p><a className="yellow-btn" href="/auth/change-password">Change password</a><p className="settings-secondary-link"><a href="/auth/forgot-password">Forgot password?</a></p></section>
   <PrivacyConsent />
   <section className="settings-card"><h2>Shopping model</h2><p>TAMP is a discovery and comparison service. Orders, payments, delivery, returns and refunds are handled by the merchant you visit.</p></section>
   <section className="settings-card"><h2>Company</h2><p><strong>Ecosystem brand:</strong> TAMP</p><p><strong>Parent company:</strong> The Active Mode Planners</p><p><strong>Support:</strong> WhatsApp +234 915 234 5733</p><a href="/support">Open support →</a></section>
