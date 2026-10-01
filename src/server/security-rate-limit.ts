@@ -12,9 +12,13 @@ export async function rateLimit(key:string, limit:number, windowSeconds:number) 
   const now=Date.now(); const c=client();
   if (c) {
     const bucket=`tamp:rl:${key}`;
-    const n=await c.incr(bucket);
-    if(n===1) await c.expire(bucket,windowSeconds);
-    return {allowed:n<=limit,remaining:Math.max(0,limit-n)};
+    try {
+      const n=await c.incr(bucket);
+      if(n===1) await c.expire(bucket,windowSeconds);
+      return {allowed:n<=limit,remaining:Math.max(0,limit-n)};
+    } catch {
+      redis=null;
+    }
   }
   const current=memory.get(key);
   if(!current || current.reset<=now){ memory.set(key,{count:1,reset:now+windowSeconds*1000}); return {allowed:true,remaining:limit-1}; }
