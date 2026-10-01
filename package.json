@@ -12,25 +12,25 @@
     "security:audit": "npm audit --audit-level=high"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.2.0",
+    "@sentry/nextjs": "^10.17.0",
+    "ioredis": "^5.6.1",
     "next": "16.3.6",
     "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "pg": "^8.16.3",
-    "ioredis": "^5.6.1",
-    "@sentry/nextjs": "^10.17.0"
+    "react-dom": "19.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
+    "@opennextjs/cloudflare": "1.20.6",
     "@types/node": "^20.17.0",
+    "@types/pg": "^8.15.5",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "autoprefixer": "^10.4.21",
     "eslint": "^9.28.0",
     "eslint-config-next": "16.3.6",
     "postcss": "^8.5.4",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.8.3",
-    "autoprefixer": "^10.4.21",
-    "@types/pg": "^8.15.5",
-    "@opennextjs/cloudflare": "1.20.6"
+    "typescript": "^5.8.3"
   }
 }

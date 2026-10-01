@@ -1,13 +1,26 @@
-import { Pool, type QueryResultRow } from 'pg';
+import { neon } from '@neondatabase/serverless';
 
-let pool: Pool | undefined;
+type QueryResult<T> = {
+  rows: T[];
+  rowCount: number;
+};
 
 export function db() {
-  if (!process.env.DATABASE_URL) throw new Error('DATABASE_URL is not configured');
-  if (!pool) pool = new Pool({ connectionString: process.env.DATABASE_URL, max: 10, idleTimeoutMillis: 30_000 });
-  return pool;
+  if (!process.env.DATABASE_URL) {
+    throw new Error('DATABASE_URL is not configured');
+  }
+  return neon(process.env.DATABASE_URL);
 }
 
-export async function query<T extends QueryResultRow = QueryResultRow>(text: string, values: unknown[] = []) {
-  return db().query<T>(text, values);
+export async function query<T = Record<string, unknown>>(
+  text: string,
+  values: unknown[] = []
+): Promise<QueryResult<T>> {
+  const sql = db();
+  const rows = await sql.query(text, values) as T[];
+
+  return {
+    rows,
+    rowCount: rows.length,
+  };
 }
