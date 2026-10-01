@@ -19,7 +19,12 @@ function parseEnv(text) {
 
 const root = process.cwd();
 const envExample = path.join(root, '.env.example');
-const env = { ...parseEnv(fs.existsSync(envExample) ? fs.readFileSync(envExample, 'utf8') : ''), ...process.env };
+const envLocal = path.join(root, '.env.local');
+const env = {
+  ...parseEnv(fs.existsSync(envExample) ? fs.readFileSync(envExample, 'utf8') : ''),
+  ...parseEnv(fs.existsSync(envLocal) ? fs.readFileSync(envLocal, 'utf8') : ''),
+  ...process.env,
+};
 const nextBin = path.join(root, 'node_modules', 'next', 'dist', 'bin', 'next');
 if (!fs.existsSync(nextBin)) {
   console.error('Next.js is not installed. Run npm install first.');

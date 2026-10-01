@@ -15,7 +15,7 @@ export async function SiteHeader({ active = '' }: { active?: string }) {
       <div className="utility-right">Africa · Compare · Click · Shop</div>
     </div>
     <header className="header">
-      <a className="brand" href="/" aria-label="TAMP home" data-no-translate><img src="/tamp-logo.webp" alt="TAMP" /></a>
+      <a className="brand" href="/" aria-label="TAMP Marketplace home" data-no-translate><img src="/tamp-logo.webp" alt="TAMP Marketplace" /></a>
       <nav aria-label="Primary navigation">
         <a className={active === 'home' ? 'active' : ''} href="/">Home</a>
         <a className={active === 'products' ? 'active' : ''} href="/products">Products</a>
@@ -68,7 +68,7 @@ export function PageShell({ children, active = '' }: { children: ReactNode; acti
   return <>
     <SiteHeader active={active} />
     <main>{children}</main>
-    <footer className="footer" id="footer"><div className="footer-main"><div className="footer-brand"><img src="/tamp-logo.webp" alt="TAMP"/><p>Compare. Click. Shop. Discover products and better prices across popular online stores serving shoppers across Africa.</p></div><div><h4>Explore</h4><a href="/products">Products</a><a href="/categories">Categories</a><a href="/merchants">Merchants</a><a href="/destinations">Destinations</a><a href="/blog">Blog</a></div><div><h4>Support</h4><a href="/auth/sign-in">Sign In</a><a href="/auth/register">Register</a><a href="/wishlist">Wishlist</a><a href="/cart">Shopping List</a><a href="/support">Support</a><a href="/settings">Settings</a><a href="/policies/accessibility">Accessibility</a><a href="/policies/privacy">Privacy Policy</a></div><div><h4>Legal</h4><a href="/policies/terms">Terms</a><a href="/policies/cookies">Cookies</a><a href="/policies/affiliate-disclosure">Affiliate Disclosure</a><a href="/policies/privacy">Data Protection</a></div></div><div className="footer-bottom"><span>© 2026 TAMP. All rights reserved.</span><span>Shopping preferences saved on this device</span></div></footer>
+    <footer className="footer" id="footer"><div className="footer-main"><div className="footer-brand"><a href="/" aria-label="TAMP Marketplace home"><img src="/tamp-logo.webp" alt="TAMP Marketplace"/></a><p>Compare. Click. Shop. Discover products and better prices across popular online stores serving shoppers across Africa.</p></div><div><h4>Explore</h4><a href="/products">Products</a><a href="/categories">Categories</a><a href="/merchants">Merchants</a><a href="/destinations">Destinations</a><a href="/blog">Blog</a></div><div><h4>Support</h4><a href="/auth/sign-in">Sign In</a><a href="/auth/register">Register</a><a href="/wishlist">Wishlist</a><a href="/cart">Shopping List</a><a href="/support">Support</a><a href="/settings">Settings</a><a href="/policies/accessibility">Accessibility</a><a href="/policies/privacy">Privacy Policy</a></div><div><h4>Legal</h4><a href="/policies/terms">Terms</a><a href="/policies/cookies">Cookies</a><a href="/policies/affiliate-disclosure">Affiliate Disclosure</a><a href="/policies/privacy">Data Protection</a></div></div><div className="footer-bottom"><span>© 2026 TAMP Marketplace. All rights reserved.</span><span>Shopping preferences saved on this device</span></div></footer>
   </>;
 }
 
@@ -76,7 +76,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
   return <>
     <AuthHeader />
     <main>{children}</main>
-    <footer className="auth-footer"><div><img src="/tamp-logo.webp" alt="TAMP" /><span>Compare. Click. Shop.</span></div><span>© 2026 TAMP Marketplace</span></footer>
+    <footer className="auth-footer"><div><img src="/tamp-logo.webp" alt="TAMP Marketplace" /><span>Compare. Click. Shop.</span></div><span>© 2026 TAMP Marketplace</span></footer>
   </>;
 }
 
