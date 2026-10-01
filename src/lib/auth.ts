@@ -3,7 +3,18 @@ import { createHash, randomBytes, scrypt as scryptCallback, timingSafeEqual } fr
 import { promisify } from 'node:util';
 import { query } from './db';
 
-const scrypt = promisify(scryptCallback);
+const scrypt = (
+  password: string,
+  salt: string,
+  keylen: number,
+  options: { N: number; r: number; p: number; maxmem: number }
+): Promise<Buffer> =>
+  new Promise((resolve, reject) => {
+    scryptCallback(password, salt, keylen, options, (err, derivedKey) => {
+      if (err) reject(err);
+      else resolve(derivedKey);
+    });
+  });
 const SESSION_COOKIE = 'tamp_session';
 const SESSION_DAYS = 30;
 export const PASSWORD_RESET_MINUTES = 30;
@@ -15,14 +26,14 @@ export function hashToken(token: string) { return createHash('sha256').update(to
 export async function hashPassword(password: string) {
   if (password.length < 8) throw new Error('Password must be at least 8 characters.');
   const salt = randomBytes(16).toString('hex');
-  const derived = (await scrypt(password, salt, 64)) as Buffer;
+  const derived = (await scrypt(password, salt, 64, { N: 32768, r: 8, p: 1, maxmem: 64 * 1024 * 1024 })) as Buffer;
   return `scrypt:${salt}:${derived.toString('hex')}`;
 }
 
 export async function verifyPassword(password: string, stored: string) {
   const [scheme, salt, hex] = stored.split(':');
   if (scheme !== 'scrypt' || !salt || !hex) return false;
-  const derived = (await scrypt(password, salt, 64)) as Buffer;
+  const derived = (await scrypt(password, salt, 64, { N: 32768, r: 8, p: 1, maxmem: 64 * 1024 * 1024 })) as Buffer;
   const expected = Buffer.from(hex, 'hex');
   return expected.length === derived.length && timingSafeEqual(expected, derived);
 }

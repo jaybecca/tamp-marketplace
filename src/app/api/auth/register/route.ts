@@ -3,6 +3,18 @@ import { createSession, hashPassword } from '@/lib/auth';
 import { query } from '@/lib/db'; import { ensureAuthSchema } from '@/lib/auth-schema';
 import { rateLimit, clientIp } from '@/server/security-rate-limit';
 
+function isValidEmail(email: string) {
+  const parts = email.split('@');
+  return (
+    parts.length === 2 &&
+    parts[0].length > 0 &&
+    parts[1].length > 0 &&
+    parts[1].includes('.') &&
+    !parts[1].startsWith('.') &&
+    !parts[1].endsWith('.')
+  );
+}
+
 export async function POST(request: Request) {
   const rl = await rateLimit(`auth-register:${clientIp(request)}`, 5, 60);
   if (!rl.allowed) return NextResponse.json({error:'Too many registration attempts. Please try again shortly.'},{status:429,headers:{'Retry-After':'60'}});
@@ -14,7 +26,7 @@ export async function POST(request: Request) {
     const password = String(body.password ?? '');
     const consent = body.consent === true;
     if (!name || name.length < 2) return NextResponse.json({error:'Enter your full name.'},{status:400});
-    if (!/^\S+@\S+\.\S+$/.test(email)) return NextResponse.json({error:'Enter a valid email address.'},{status:400});
+    if (!isValidEmail(email)) return NextResponse.json({error:'Enter a valid email address.'},{status:400});
     if (!consent) return NextResponse.json({error:'Please accept the Privacy Policy and Terms.'},{status:400});
     const passwordHash = await hashPassword(password);
     const countryHeader = request.headers.get('cf-ipcountry') || request.headers.get('x-country-code');

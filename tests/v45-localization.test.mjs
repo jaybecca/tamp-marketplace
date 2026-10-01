@@ -11,7 +11,7 @@ test('v45 removes per-user Gemini translation from normal rendering',()=>{
 });
 test('v45 blog locales are stored locally for all five translated languages',()=>{
   const s=fs.readFileSync('src/data/blog-locales.ts','utf8');
-  for(const lang of ['fr','pt','sw','zu','ar']) assert.match(s,new RegExp(`\\n  ${lang}: \\{`));
+  for(const lang of ['fr','pt','sw','zu','ar']) assert.ok(new RegExp(`\\n\\s*${lang}: \\{`).test(s));
   assert.ok((s.match(/content:\[/g)||[]).length>=50*5);
 });
 test('v45 has RTL layout rules beyond the document direction',()=>{

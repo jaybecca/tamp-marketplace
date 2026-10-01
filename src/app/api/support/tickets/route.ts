@@ -2,6 +2,18 @@ import { NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 import { getCurrentUser } from '@/lib/auth';
 
+function isValidEmail(email: string) {
+  const parts = email.split('@');
+  return (
+    parts.length === 2 &&
+    parts[0].length > 0 &&
+    parts[1].length > 0 &&
+    parts[1].includes('.') &&
+    !parts[1].startsWith('.') &&
+    !parts[1].endsWith('.')
+  );
+}
+
 export async function POST(req: Request) {
   try {
     const user = await getCurrentUser();
@@ -11,7 +23,7 @@ export async function POST(req: Request) {
     const subject = String(body.subject ?? '').trim();
     const message = String(body.message ?? '').trim();
     const priority = ['low','normal','high','urgent'].includes(String(body.priority)) ? String(body.priority) : 'normal';
-    if (!subject || !message || message.length > 10000 || (!user && !/^\S+@\S+\.\S+$/.test(email))) {
+    if (!subject || !message || message.length > 10000 || (!user && !isValidEmail(email))) {
       return NextResponse.json({ error: 'Name/email, subject and message are required.' }, { status: 400 });
     }
     const r = await query(`INSERT INTO support_tickets(user_id,email,name,subject,message,priority) VALUES($1,$2,$3,$4,$5,$6) RETURNING id,status,created_at`, [user?.id ?? null, email || null, name || null, subject, message, priority]);

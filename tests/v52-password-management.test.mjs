@@ -24,7 +24,7 @@ test('v52 auth UI exposes recovery, change-password and show-hide controls', () 
 test('v52 password recovery has all six locale translations and transactional email configuration', () => {
   const localization = read('src/components/localization.tsx');
   for (const locale of ['fr','pt','ar','sw','zu']) assert.match(localization, new RegExp(`${locale}:`));
-  for (const phrase of ['Forgot your password?','Send reset link','Create a new password','Change password']) assert.match(localization, new RegExp(phrase.replace(/[?]/g,'\\?')));
+  for (const phrase of ['Forgot your password?','Send reset link','Create a new password','Change password']) assert.ok(localization.includes(phrase));
   const env = read('.env.example');
   assert.match(env, /^RESEND_API_KEY=/m);
   assert.match(env, /^RESEND_FROM_EMAIL=/m);
