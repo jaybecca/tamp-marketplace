@@ -5,17 +5,31 @@
   "compatibility_date": "2026-09-28",
   "compatibility_flags": ["nodejs_compat"],
   "vars": {
-  "ADMIN_EMAILS": "tamp.education@gmail.com,beccaogbeide@gmail.com",
-  "FX_RATE_API_URL": "https://open.er-api.com/v6/latest/USD",
-  "GEMINI_MODEL": "gemini-2.5-flash",
-  "GOOGLE_CLIENT_ID": "191415302043-qtaajki3956qc3l06lbe3apnf8kseuuf.apps.googleusercontent.com",
-  "NEXT_PUBLIC_DEFAULT_CURRENCY": "USD",
-  "NEXT_PUBLIC_DEFAULT_LANGUAGE": "en",
-  "NEXT_PUBLIC_SITE_NAME": "TAMP Marketplace",
-  "NEXT_PUBLIC_SITE_URL": "https://marketplace.tampconsulting.space",
-  "SUPPORT_EMAIL": "marketplace@tampconsulting.space",
-  "ALIEXPRESS_AppKey": "549660"
-},
+    "ADMIN_EMAILS": "tamp.education@gmail.com,beccaogbeide@gmail.com",
+    "FX_RATE_API_URL": "https://open.er-api.com/v6/latest/USD",
+    "GEMINI_MODEL": "gemini-2.5-flash",
+    "GOOGLE_CLIENT_ID": "191415302043-qtaajki3956qc3l06lbe3apnf8kseuuf.apps.googleusercontent.com",
+    "NEXT_PUBLIC_DEFAULT_CURRENCY": "USD",
+    "NEXT_PUBLIC_DEFAULT_LANGUAGE": "en",
+    "NEXT_PUBLIC_SITE_NAME": "TAMP Marketplace",
+    "NEXT_PUBLIC_SITE_URL": "https://marketplace.tampconsulting.space",
+    "SUPPORT_EMAIL": "marketplace@tampconsulting.space",
+    "ALIEXPRESS_APP_KEY": "549660"
+  },
+  "previews": {
+    "vars": {
+      "ADMIN_EMAILS": "preview@example.invalid",
+      "FX_RATE_API_URL": "https://open.er-api.com/v6/latest/USD",
+      "GEMINI_MODEL": "gemini-2.5-flash",
+      "GOOGLE_CLIENT_ID": "preview-only",
+      "NEXT_PUBLIC_DEFAULT_CURRENCY": "USD",
+      "NEXT_PUBLIC_DEFAULT_LANGUAGE": "en",
+      "NEXT_PUBLIC_SITE_NAME": "TAMP Marketplace Preview",
+      "NEXT_PUBLIC_SITE_URL": "https://preview.invalid",
+      "SUPPORT_EMAIL": "preview@example.invalid",
+      "ALIEXPRESS_APP_KEY": "preview-only"
+    }
+  },
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
